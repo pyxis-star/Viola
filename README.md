@@ -3,7 +3,7 @@ A simple bot for Discord.
 # About
 Viola is a bot that is under development, it will be focused on simple multitasking.
 # Libraly
-[Discord.js](https://discord.js.org/#/)
+[Discord.js](https://discord.js.org/#/)  
 [Discord.js Guide](https://discordjs.guide/)
 # Dependencies
 - @vitalets/google-translate-api  
