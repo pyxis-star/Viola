@@ -2,12 +2,15 @@
 A simple bot for Discord.
 # About
 Viola is a bot that is under development, it will be focused on simple multitasking.
+# Libraly
+[Discord.js](https://discord.js.org/#/)
+[Discord.js Guide](https://discordjs.guide/)
 # Dependencies
 - @vitalets/google-translate-api  
 - @tensorflow/tfjs-node  
 - axios  
 - chalk  
-- discord.js  
+- [discord.js](https://github.com/discordjs/discord.js)  
 - dotenv  
 - express  
 - glob  
@@ -17,5 +20,5 @@ Viola is a bot that is under development, it will be focused on simple multitask
 - nasa-apod  
 - node-osu  
 - nekos.life  
-- nsfwjs  
-- tesseract.js  
+- [nsfwjs](https://github.com/infinitered/nsfwjs)  
+- [tesseract.js](https://github.com/naptha/tesseract.js#tesseractjs)    
