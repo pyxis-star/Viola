@@ -6,7 +6,7 @@ Viola is a bot that is under development, it will be focused on simple multitask
 @vitalets/google-translate-api  
 @tensorflow/tfjs-node  
 axios  
-chalk 4.1.0  
+chalk  
 discord.js  
 dotenv  
 express  
