@@ -5,6 +5,8 @@ Viola is a bot that is under development, it will be focused on simple multitask
 # Libraly
 [Discord.js](https://discord.js.org/#/)  
 [Discord.js Guide](https://discordjs.guide/)
+# License
+[ISC License](https://opensource.org/licenses/ISC)
 # Dependencies
 - @vitalets/google-translate-api  
 - @tensorflow/tfjs-node  
