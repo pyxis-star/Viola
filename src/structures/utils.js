@@ -1,5 +1,7 @@
 const Viola = {}
 
+Viola.github = 'https://github.com/pyxis-star/Viola/'
+
 Viola.time = function formatDate(template, date) {
             var specs = 'YYYY:MM:DD:HH:mm:ss'.split(':')
             date = new Date(date || Date.now() - new Date().getTimezoneOffset() * 6e4)
