@@ -14,15 +14,16 @@ module.exports = {
         clientPerms: []
     },
     run: async (client, message, args) => {
-        if (!args) return;
-        let ocr = args[0] || message.attachments.first().url
+        if (!args[0]) return;
+        let image = message.channel.messages.cache.filter(msg => msg.attachments.size > 0).map(a => a.attachments.last().url).slice(0, 1)
+        let ocr = image || args[0] || message.attachments.first().url
         message.channel.startTyping();
 		Tesseract.recognize(
   			`${ocr}`,
-  			'eng'
+            'eng'
 		).then(({ data: { text } }) => {
   			message.channel.send(text);
             message.channel.stopTyping();
-		});
+		}).catch(err => message.reply(`\`\`\`\njs\n${Viola.clean(err)}\n``\`\`\``))
     },
 };
