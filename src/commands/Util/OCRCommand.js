@@ -16,7 +16,7 @@ module.exports = {
     run: async (client, message, args) => {
         if (!args[0]) return;
         let image = message.channel.messages.cache.filter(msg => msg.attachments.size > 0).map(a => a.attachments.last().url).slice(0, 1)
-        let ocr = image || args[0] || message.attachments.first().url
+        let ocr = args[0] || message.attachments.first().url || image 
         message.channel.startTyping();
 		Tesseract.recognize(
   			`${ocr}`,
