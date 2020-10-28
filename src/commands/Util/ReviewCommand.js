@@ -1,6 +1,6 @@
-const axios = require('axios');
 const tf = require('@tensorflow/tfjs-node');
 const nsfw = require('nsfwjs');
+const axios = require("axios");
 const { MessageEmbed } = require('discord.js');
 const config = require("../../../config.json");
 const Viola = require("../../structures/utils.js");
@@ -17,7 +17,8 @@ module.exports = {
         clientPerms: ['EMBED_LINKS']
     },
     run: async (client, message, args) => {
-        let review = args[0] || message.attachments.first().url
+        let image = message.channel.messages.cache.filter(msg => msg.attachments.size > 0).map(a => a.attachments.last().url).slice(0, 1)
+        let review = args[0] || message.attachments.first().url || image 
         if (!review) return;
         
         async function fn() {
@@ -33,9 +34,9 @@ module.exports = {
                .setAuthor(message.author.tag, message.author.displayAvatarURL({ dynamic: true }))
                .setTimestamp()
                .setColor(config.color)
-               .setDescription(`**Neutral : \`${predictions.find(a => a.className == "Neutral").probability.toFixed(2).slice(2)}%\`\nDrawing : \`${predictions.find(a => a.className == "Drawing").probability.toFixed(2).slice(2)}%\`\nSexy : \`${predictions.find(a => a.className == "Sexy").probability.toFixed(2).slice(2)}%\`\nPorn : \`${predictions.find(a => a.className == "Porn").probability.toFixed(2).slice(2)}%\`\nHentai : \`${predictions.find(a => a.className == "Hentai").probability.toFixed(2).slice(2)}%\`**`)
+               .setDescription(`**Neutral : \`${(predictions.find(a => a.className == "Neutral").probability).toFixed(2).slice(2)}%\`\nDrawing : \`${(predictions.find(a => a.className == "Drawing").probability).toFixed(2).slice(2)}%\`\nSexy : \`${(predictions.find(a => a.className == "Sexy").probability).toFixed(2).slice(2)}%\`\nPorn : \`${(predictions.find(a => a.className == "Porn").probability).toFixed(2).slice(2)}%\`\nHentai : \`${(predictions.find(a => a.className == "Hentai").probability).toFixed(2).slice(2)}%\`**`)
             message.channel.send(embed)
 		}
-fn();
+fn()
     },
 };
