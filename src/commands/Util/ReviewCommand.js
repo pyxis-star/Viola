@@ -17,9 +17,8 @@ module.exports = {
         clientPerms: ['EMBED_LINKS']
     },
     run: async (client, message, args) => {
-        let image = message.channel.messages.cache.filter(msg => msg.attachments.size > 0).map(a => a.attachments.last().url).slice(0, 1)
-        let review = args[0] || message.attachments.first().url || image 
-        if (!review) return;
+        let review = args[0] || message.attachments.first().url
+        if (!review) return
         
         async function fn() {
   			const pic = await axios.get(`${review}`, {
