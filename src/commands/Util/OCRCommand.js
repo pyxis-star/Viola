@@ -14,15 +14,16 @@ module.exports = {
         clientPerms: []
     },
     run: async (client, message, args) => {
-        if (!args[0]) return;
         let ocr = args[0] || message.attachments.first().url
+        if (!ocr) return;
         message.channel.startTyping();
 		Tesseract.recognize(
   			`${ocr}`,
             'eng'
-		).then(({ data: { text } }) => {
+		).then(({ data: { text } }, err) => {
+            if (err) return message.reply(`**~Sorry, an error happened...**`)
   			message.channel.send(text);
             message.channel.stopTyping();
-		}).catch(err => message.reply(`\`\`\`\njs\n${Viola.clean(err)}\n``\`\`\``))
+		})
     },
 };
