@@ -18,7 +18,7 @@ module.exports = {
     },
     run: async (client, message, args) => {
         let review = args[0] || message.attachments.first().url
-        if (!review) return
+        if (!review) return;
         
         async function fn() {
   			const pic = await axios.get(`${review}`, {
