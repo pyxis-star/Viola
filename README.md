@@ -18,6 +18,7 @@ Viola is a bot that is under development, it will be focused on simple multitask
 - glob  
 - moment  
 - memory  
+- mongoose  
 - ms  
 - nasa-apod  
 - node-osu  
