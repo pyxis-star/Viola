@@ -16,12 +16,12 @@ module.exports = {
     run: async (client, message, args) => {
         let ocr = args[0] || message.attachments.first().url
         if (!ocr) return;
+        if (!ocr.endsWith('.png')) return message.channel.send('**~ The image is not a png!**')
         message.channel.startTyping();
 		Tesseract.recognize(
   			`${ocr}`,
-            'eng'
+            		 'eng'
 		).then(({ data: { text } }, err) => {
-            if (err) return message.reply(`**~Sorry, an error happened...**`)
   			message.channel.send(text);
             message.channel.stopTyping();
 		})
