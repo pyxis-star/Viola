@@ -1,5 +1,8 @@
 const { Collection, Client, MessageEmbed } = require("discord.js");
+const Guild = require("./models/guild");
+const User = require("./models/player");
 const fs = require("fs");
+const mongoose = require("mongoose");
 const App = require("./app");
 const chalk = require("chalk");
 const config = require("../config.json");
@@ -15,12 +18,42 @@ module.exports = class extends Client {
         this.aliases = new Collection();
         this.port = process.env.PORT || 3000;;
         this.Viola = require("./structures/utils");
-        this.prefix = this.config.prefix;
+        this.database = require("./structures/database");
+        this.prefix = this.config.prefix
  
         this.on("message", async (message) => {
             if (message.author.bot || message.channel.type === "dm") return;
+            
+            const player = await User.findOne({
+                playerID: message.author.id,
+                blacklist: false
+            }, (err, user) => {
+                if (err) console.log(err)
+                if (!user) {
+                    user = new User({
+                        _id: mongoose.Types.ObjectId(),
+                		playerID: message.author.id,
+                		playerName: message.author.tag,
+                		blacklist: false
+                    })
+                }
+            
+            if (user.blacklist === true) return;
+            
+            Guild.findOne( {
+  				guildID: message.guild.id
+			}, async (err, guild) => {
+  				if (!guild) {
+  					const guild = new Guild({
+   						_id: mongoose.Types.ObjectId(),
+  						guildID: message.guild.id,
+  						guildName: message.guild.name,
+				} )
+  				guild.save().catch(err => console.log(err));
+			  }
+            
             if (message.content === `<@!${this.user.id}>`) return message.reply(`**~ My prefix is \`${this.prefix}\`**`)
-            if (!message.content.startsWith(this.config.prefix)) return;
+            if (!message.content.startsWith(this.prefix)) return;
             
             let mperms = (member, perms) => {
                 const missing = member.permissions.missing(perms).map(str => `\`${str.replace(/_/g, ' ').toLowerCase().replace(/\b(\w)/g, char => char.toUpperCase())}\``)
@@ -28,7 +61,7 @@ module.exports = class extends Client {
                 return missing.length > 1 ? `${missing.slice(0, -1).join(", ")} ${re} ${missing.slice(-1)[0]}` : missing[0]
             }
 
-            const args = message.content.slice(this.config.prefix.length).trim().split(/ +/g);
+            const args = message.content.slice(this.prefix.length).trim().split(/ +/g);
             const command = args.shift().toLowerCase();
 
             const cmd = this.commands.get(command) || this.commands.get(this.aliases.get(command));
@@ -61,6 +94,8 @@ module.exports = class extends Client {
                     return message.channel.send(`**~ An error occurred while executing the command! Sorry for the unforeseen!**`);
                 };
             };
+            });
+            });
         });
 
     };
@@ -86,6 +121,7 @@ module.exports = class extends Client {
         this.login(this.config.token).then(() => {
             const server = new App(this);
             server.init();
+            this.database.init();
             console.log(`[ ${chalk.green("SYSTEM")} ] - Ok`);
         });
     };
